@@ -1,15 +1,23 @@
-const express=require("express")
-const app=express()
-const port=3000
-const router=express().router()
+import express from "express"
+import dotenv from "dotenv"
+const app = express();
+import session from "express-session"
+dotenv.config()
+const port = 3000;
 
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
-app.get("/",(req,res)=>{
-    res.send("Hello World")
-})
-const user=require("./routes/user_lookup.js")
+app.use(session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
+import user  from "./routes/user_lookup.js";
 
-app.use("/user",user)
-app.listen(port,()=>{
-    console.log("Server is running on port "+port)
-})
+app.use("/user", user);
+app.listen(port, () => {
+  console.log("Server is running on port " + port);
+});
